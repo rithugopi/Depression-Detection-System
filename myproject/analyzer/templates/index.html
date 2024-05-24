@@ -1,0 +1,103 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depression Level Detection</title>
+    <style>
+        body {
+            background-color: #B7E9F7; 
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center; 
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            width: 60%; 
+            max-width: 500px; 
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #0056b3;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #F4EAAE;
+        }
+        h2 {
+            margin-bottom: 10px;
+        }
+        p {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Depression Level Detection</h1>
+        <form method="post" action="{% url 'index' %}">
+            {% csrf_token %}
+            <label for="field-select">Select Input Type:</label><br>
+            <select id="field-select">
+                <option value="">Select...</option>
+                <option value="username">Enter Username</option>
+                <option value="text">Enter Text</option>
+            </select><br><br>
+            <div id="username-field" class="field" style="display: none;">
+                <label for="username">Enter Username:</label><br>
+                <input type="text" id="username" name="username">
+            </div>
+            
+            <div id="text-field" class="field" style="display: none;">
+                <label for="text">How do you feel today:</label><br>
+                <textarea id="text" name="text" rows="3" cols="50"></textarea>
+            </div>
+            <input type="submit" value="Detect">
+        </form> 
+        <script>
+            const fieldSelect = document.getElementById('field-select');
+            const usernameField = document.getElementById('username-field');
+            const textField = document.getElementById('text-field');
+        
+            fieldSelect.addEventListener('change', function() {
+                if (fieldSelect.value === 'username') {
+                    usernameField.style.display = 'block';
+                    textField.style.display = 'none';
+                } else if (fieldSelect.value === 'text') {
+                    textField.style.display = 'block';
+                    usernameField.style.display = 'none';
+                }
+            });
+        </script>
+         <h2>Analysis Result:</h2>
+        <p>{{ result }}</p>
+    </div>
+</body>
+</html>
